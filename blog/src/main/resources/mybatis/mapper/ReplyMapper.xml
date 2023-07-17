@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.blog.repository.ReplyRepository">
+    <select id="findAllByBlogId" resultType="com.spring.blog.dto.ReplyFindDTO">
+        SELECT
+            reply_id AS replyId,
+            reply_author AS replyAuthor,
+            reply_content AS replyContent,
+            published_at AS publishedAt,
+            updated_at AS updatedAt
+        FROM
+            reply
+        WHERE
+            blog_id = #{blogId};
+    </select>
+
+    <select id="findByReplyId" resultType="com.spring.blog.dto.ReplyFindDTO">
+        SELECT
+            reply_id AS replyId,
+            reply_author AS replyAuthor,
+            reply_content AS replyContent,
+            published_at AS publishedAt,
+            updated_at AS updatedAt
+        FROM
+            reply
+        WHERE
+            reply_id = #{replyId};
+    </select>
+
+    <delete id="deleteByReplyId">
+        DELETE
+        FROM
+            reply
+        WHERE
+            reply_id = #{replyId};
+    </delete>
+
+    <delete id="deleteByBlogId">
+        DELETE
+        FROM
+            reply
+        WHERE
+            blog_id = #{blogId};
+    </delete>
+
+    <insert id="save" parameterType="com.spring.blog.dto.ReplyInsertDTO">
+        INSERT
+        INTO
+            reply
+            (blog_id, reply_author, reply_content)
+        VALUES
+            (#{blogId}, #{replyAuthor}, #{replyContent})
+    </insert>
+
+    <update id="update" parameterType="com.spring.blog.dto.ReplyUpdateDTO">
+        UPDATE
+            reply
+        SET
+            reply_author = #{replyAuthor},
+            reply_content = #{replyContent},
+            updated_at = NOW()
+        WHERE
+             reply_id = #{replyId}
+    </update>
+</mapper>

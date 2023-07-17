@@ -1,0 +1,29 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  datasource:
+    url: ${url}
+    username: ${usrname}
+    password: ${password}
+    driver-class-name: ${driver-class-name}
+  profiles:
+      active: db
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/**.xml
+
+server:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true

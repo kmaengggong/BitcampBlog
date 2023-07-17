@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.blog.repository.BlogRepository">
+    <select id="findAll" resultType="com.spring.blog.entity.Blog">
+        SELECT
+            blog_id AS blogId,
+            author,
+            blog_title AS blogTitle,
+            blog_content AS blogContent,
+            published_at AS publishedAt,
+            updated_at AS updatedAt,
+            blog_count AS blogCount
+        FROM
+            blog
+        ORDER BY
+            blog_id DESC
+    </select>
+
+    <select id="findById" resultType="com.spring.blog.entity.Blog">
+        SELECT
+            blog_id AS blogId,
+            author,
+            blog_title AS blogTitle,
+            blog_content AS blogContent,
+            published_at AS publishedAt,
+            updated_at AS updatedAt,
+            blog_count AS blogCount
+        FROM
+            blog
+        WHERE
+            blog_id = #{blogId}
+    </select>
+
+    <insert id="save" parameterType="com.spring.blog.entity.Blog">
+        INSERT INTO blog
+            (author, blog_title, blog_content)
+        VALUES
+            (#{author}, #{blogTitle}, #{blogContent})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM blog WHERE blog_id = #{blogId}
+    </delete>
+
+    <!-- 제목, 본문, 업데이트 시간-->
+    <update id="update" parameterType="com.spring.blog.entity.Blog">
+        UPDATE
+            blog
+        SET
+            blog_title = #{blogTitle},
+            blog_content = #{blogContent},
+            updated_at = NOW()
+        WHERE
+            blog_id = #{blogId}
+    </update>
+
+    <select id="createBlogTable">
+        CREATE TABLE IF NOT EXISTS blog(
+            blog_id INT AUTO_INCREMENT PRIMARY KEY,
+            author VARCHAR(16) NOT NULL,
+            blog_title VARCHAR(200) NOT NULL,
+            blog_content VARCHAR(4000) NOT NULL,
+            published_at DATETIME DEFAULT NOW(),
+            updated_at DATETIME DEFAULT NOW(),
+            blog_count INT DEFAULT 0
+        )
+    </select>
+    <insert id="insertTestData">
+        INSERT INTO blog VALUES
+            (NULL, "1번유저", "1번제목", "1번내용", NOW(), NOW(), NULL),
+            (NULL, "2번유저", "2번제목", "2번내용", NOW(), NOW(), NULL),
+            (NULL, "3번유저", "3번제목", "3번내용", NOW(), NOW(), NULL)
+    </insert>
+    <update id="dropBlogTable">
+        DROP TABLE blog
+    </update>
+</mapper>
